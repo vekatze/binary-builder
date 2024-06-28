@@ -1,0 +1,53 @@
+import {
+  core.binary {_get-content-pointer, allocate, binary, take},
+  core.control {discard},
+}
+
+data _builder {
+| _Builder(
+    cursor: int,
+    content: binary,
+  )
+}
+
+constant builder: type {
+  cell(_builder)
+}
+
+define create(size: int): builder {
+  new-cell(
+    _Builder of {
+      cursor = 0,
+      content = allocate(size),
+    },
+  )
+}
+
+define get(b: builder): binary {
+  let _Builder of {cursor, content} = core.cell.extract(b) in
+  take(content, cursor)
+}
+
+define _extension-required-p(b: &builder, new-size: int): bool {
+  tie _Builder of {cursor, content} = core.cell.read(b) in
+  let current-len = core.binary.binary-length(content) in
+  gt-int(add-int(*cursor, new-size), current-len)
+}
+
+foreign {
+  llvm.memcpy.p0.p0.i64(pointer, pointer, int64, int1): void,
+}
+
+define _extend(b: &builder): unit {
+  mutate(b, function (x: _builder) {
+    let _Builder of {cursor, content} = x in
+    let current-size on content = core.binary.binary-length(content) in
+    let new-content = allocate(mul-int(current-size, 2)) in
+    let content-ptr on content = _get-content-pointer(content) in
+    let new-content-ptr on new-content = _get-content-pointer(new-content) in
+    let zero: int = 0 in
+    magic external llvm.memcpy.p0.p0.i64(new-content-ptr, content-ptr, cursor, zero);
+    discard(content);
+    _Builder(cursor, new-content)
+  });
+}

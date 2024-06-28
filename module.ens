@@ -1,0 +1,22 @@
+{
+  target {
+    test {
+      main "test.nt",
+    },
+  },
+  dependency {
+    core {
+      digest "mseYRmC_ydN68yn-6rNbA8bHijScAym5ZmDHVGRclSc",
+      mirror [
+        "https://github.com/vekatze/neut-core/raw/main/archive/0-50-12.tar.zst",
+      ],
+      enable-preset true,
+    },
+    noa {
+      digest "a93s9pBwDIZgSPkdYZ545xxphrgM8Fm5Mq_IdXBprRQ",
+      mirror [
+        "https://github.com/vekatze/noa/raw/main/archive/0-3-14.tar.zst",
+      ],
+    },
+  },
+}
