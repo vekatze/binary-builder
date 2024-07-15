@@ -1,8 +1,9 @@
 import {
   core.binary {binary},
-  core.control {discard},
   core.int.show {show-int},
-  core.memory {store-int8},
+  core.memory {store-int, store-int8},
+  core.text {_Text},
+  core.word,
   this.entity {_Builder, _extend, _extension-required-p, builder, create, get},
 }
 
@@ -69,6 +70,13 @@ define append-int64-big-endian(b: &builder, x: int64): unit {
   store-int8(piece-1, add-int(content-head-ptr, 6));
   store-int8(piece-0, add-int(content-head-ptr, 7));
   _proceed(b, 8)
+}
+
+define append-int(b: &builder, x: int): unit {
+  let size = core.word.size in
+  let content-head-ptr = _get-head-ptr(b, size) in
+  store-int(x, add-int(content-head-ptr, 0));
+  _proceed(b, size)
 }
 
 define append-int64-UTF8(b: &builder, x: int64): unit {
@@ -215,15 +223,23 @@ define zen(): unit {
   let b = create(4) in
   let _ on b =
     append-text(b, "hello");
-    append-float16-UTF8(b, 2.3);
-    append-int64-UTF8(b, -123);
-    append-float64-UTF8(b, -123.223);
-    append-text(b, "あいうえお")
+    append-int64-UTF8(b, 123);
+    append-text(b, "world")
   in
-  let txt = get(b) in
-  let len on txt = core.binary.binary-length(txt) in
-  let stdout: int = 1 in
-  let ptr on txt = core.binary._get-content-pointer(txt) in
-  magic external write(stdout, ptr, len);
-  discard(txt)
+  let result = get(b) in
+  printf("{}\n", [_Text(result)])
+  // let b = create(4) in
+  // let _ on b =
+  //   append-text(b, "hello");
+  //   append-float16-UTF8(b, 2.3);
+  //   append-int64-UTF8(b, -123);
+  //   append-float64-UTF8(b, -123.223);
+  //   append-text(b, "あいうえお")
+  // in
+  // let txt = get(b) in
+  // let len on txt = core.binary.binary-length(txt) in
+  // let stdout: int = 1 in
+  // let ptr on txt = core.binary._get-content-pointer(txt) in
+  // magic external write(stdout, ptr, len);
+  // discard(txt)
 }
