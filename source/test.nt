@@ -49,5 +49,5 @@ define main(): unit {
       pin t2 = _Text(get(buf)) in
       eq-text(t1, t2)
     },
-  );
+  )
 }

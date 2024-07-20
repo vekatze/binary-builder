@@ -49,5 +49,5 @@ define _extend(b: &builder): unit {
     magic external llvm.memcpy.p0.p0.i64(new-content-ptr, content-ptr, cursor, zero);
     discard(content);
     _Builder(cursor, new-content)
-  });
+  })
 }
