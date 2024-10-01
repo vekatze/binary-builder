@@ -1,5 +1,6 @@
 import {
   core.binary {_get-content-pointer, allocate, binary, take},
+  core.cell {cell, mutate},
   core.control {discard},
 }
 

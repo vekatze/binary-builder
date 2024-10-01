@@ -1,5 +1,6 @@
 import {
   core.binary {binary},
+  core.cell {mutate},
   core.int.show {show-int},
   core.memory {store-int, store-int8},
   core.text {_Text},

@@ -1,6 +1,7 @@
 import {
   core.float.show {show-float},
   core.int.show {show-int},
+  core.list {for-N},
   core.text {_Text, join},
   noa.gen.floats {floats},
   noa.gen.ints {ints},
