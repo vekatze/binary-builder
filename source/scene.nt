@@ -3,6 +3,7 @@ import {
   core.cell {mutate},
   core.int.show {show-int},
   core.memory {store-int, store-int8},
+  core.pointer {pointer, shift},
   core.text {_Text},
   core.word,
   this.entity {_Builder, _extend, _extension-required-p, builder, create, get},
@@ -14,13 +15,13 @@ foreign {
   sprintf(pointer, pointer): int,
 }
 
-define _get-head-ptr(b: &builder, fragment-size: int): int {
+define _get-head-ptr(b: &builder, fragment-size: int): pointer {
   if _extension-required-p(b, fragment-size) {
     _extend(b);
     _get-head-ptr(b, fragment-size)
   } else {
     tie _Builder of {cursor, content} = core.cell.read(b) in
-    add-int(core.binary._get-content-pointer(content), *cursor)
+    shift(core.binary._get-content-pointer(content), *cursor)
   }
 }
 
@@ -41,14 +42,14 @@ define append-int64-little-endian(b: &builder, x: int64): unit {
   let piece-6 = trunc-int64-int8(lshr-int64(and-int64(0x00ff000000000000, x), 48)) in
   let piece-7 = trunc-int64-int8(lshr-int64(and-int64(0xff00000000000000, x), 56)) in
   let content-head-ptr = _get-head-ptr(b, 8) in
-  store-int8(piece-0, add-int(content-head-ptr, 0));
-  store-int8(piece-1, add-int(content-head-ptr, 1));
-  store-int8(piece-2, add-int(content-head-ptr, 2));
-  store-int8(piece-3, add-int(content-head-ptr, 3));
-  store-int8(piece-4, add-int(content-head-ptr, 4));
-  store-int8(piece-5, add-int(content-head-ptr, 5));
-  store-int8(piece-6, add-int(content-head-ptr, 6));
-  store-int8(piece-7, add-int(content-head-ptr, 7));
+  store-int8(piece-0, shift(content-head-ptr, 0));
+  store-int8(piece-1, shift(content-head-ptr, 1));
+  store-int8(piece-2, shift(content-head-ptr, 2));
+  store-int8(piece-3, shift(content-head-ptr, 3));
+  store-int8(piece-4, shift(content-head-ptr, 4));
+  store-int8(piece-5, shift(content-head-ptr, 5));
+  store-int8(piece-6, shift(content-head-ptr, 6));
+  store-int8(piece-7, shift(content-head-ptr, 7));
   _proceed(b, 8)
 }
 
@@ -62,21 +63,21 @@ define append-int64-big-endian(b: &builder, x: int64): unit {
   let piece-6 = trunc-int64-int8(lshr-int64(and-int64(0x00ff000000000000, x), 48)) in
   let piece-7 = trunc-int64-int8(lshr-int64(and-int64(0xff00000000000000, x), 56)) in
   let content-head-ptr = _get-head-ptr(b, 8) in
-  store-int8(piece-7, add-int(content-head-ptr, 0));
-  store-int8(piece-6, add-int(content-head-ptr, 1));
-  store-int8(piece-5, add-int(content-head-ptr, 2));
-  store-int8(piece-4, add-int(content-head-ptr, 3));
-  store-int8(piece-3, add-int(content-head-ptr, 4));
-  store-int8(piece-2, add-int(content-head-ptr, 5));
-  store-int8(piece-1, add-int(content-head-ptr, 6));
-  store-int8(piece-0, add-int(content-head-ptr, 7));
+  store-int8(piece-7, shift(content-head-ptr, 0));
+  store-int8(piece-6, shift(content-head-ptr, 1));
+  store-int8(piece-5, shift(content-head-ptr, 2));
+  store-int8(piece-4, shift(content-head-ptr, 3));
+  store-int8(piece-3, shift(content-head-ptr, 4));
+  store-int8(piece-2, shift(content-head-ptr, 5));
+  store-int8(piece-1, shift(content-head-ptr, 6));
+  store-int8(piece-0, shift(content-head-ptr, 7));
   _proceed(b, 8)
 }
 
 define append-int(b: &builder, x: int): unit {
   let size = core.word.size in
   let content-head-ptr = _get-head-ptr(b, size) in
-  store-int(x, add-int(content-head-ptr, 0));
+  store-int(x, shift(content-head-ptr, 0));
   _proceed(b, size)
 }
 
@@ -95,10 +96,10 @@ define append-int32-little-endian(b: &builder, x: int32): unit {
   let piece-2 = trunc-int32-int8(lshr-int32(and-int32(0x00ff0000, x), 16)) in
   let piece-3 = trunc-int32-int8(lshr-int32(and-int32(0xff000000, x), 24)) in
   let content-head-ptr = _get-head-ptr(b, 4) in
-  store-int8(piece-0, add-int(content-head-ptr, 0));
-  store-int8(piece-1, add-int(content-head-ptr, 1));
-  store-int8(piece-2, add-int(content-head-ptr, 2));
-  store-int8(piece-3, add-int(content-head-ptr, 3));
+  store-int8(piece-0, shift(content-head-ptr, 0));
+  store-int8(piece-1, shift(content-head-ptr, 1));
+  store-int8(piece-2, shift(content-head-ptr, 2));
+  store-int8(piece-3, shift(content-head-ptr, 3));
   _proceed(b, 4)
 }
 
@@ -108,10 +109,10 @@ define append-int32-big-endian(b: &builder, x: int32): unit {
   let piece-2 = trunc-int32-int8(lshr-int32(and-int32(0x00ff0000, x), 16)) in
   let piece-3 = trunc-int32-int8(lshr-int32(and-int32(0xff000000, x), 24)) in
   let content-head-ptr = _get-head-ptr(b, 4) in
-  store-int8(piece-3, add-int(content-head-ptr, 0));
-  store-int8(piece-2, add-int(content-head-ptr, 1));
-  store-int8(piece-1, add-int(content-head-ptr, 2));
-  store-int8(piece-0, add-int(content-head-ptr, 3));
+  store-int8(piece-3, shift(content-head-ptr, 0));
+  store-int8(piece-2, shift(content-head-ptr, 1));
+  store-int8(piece-1, shift(content-head-ptr, 2));
+  store-int8(piece-0, shift(content-head-ptr, 3));
   _proceed(b, 4)
 }
 
@@ -123,8 +124,8 @@ define append-int16-little-endian(b: &builder, x: int16): unit {
   let piece-0 = trunc-int16-int8(lshr-int16(and-int16(0x00ff, x), 0)) in
   let piece-1 = trunc-int16-int8(lshr-int16(and-int16(0xff00, x), 8)) in
   let content-head-ptr = _get-head-ptr(b, 2) in
-  store-int8(piece-0, add-int(content-head-ptr, 0));
-  store-int8(piece-1, add-int(content-head-ptr, 1));
+  store-int8(piece-0, shift(content-head-ptr, 0));
+  store-int8(piece-1, shift(content-head-ptr, 1));
   _proceed(b, 2)
 }
 
@@ -132,8 +133,8 @@ define append-int16-big-endian(b: &builder, x: int16): unit {
   let piece-0 = trunc-int16-int8(lshr-int16(and-int16(0x00ff, x), 0)) in
   let piece-1 = trunc-int16-int8(lshr-int16(and-int16(0xff00, x), 8)) in
   let content-head-ptr = _get-head-ptr(b, 2) in
-  store-int8(piece-1, add-int(content-head-ptr, 0));
-  store-int8(piece-0, add-int(content-head-ptr, 1));
+  store-int8(piece-1, shift(content-head-ptr, 0));
+  store-int8(piece-0, shift(content-head-ptr, 1));
   _proceed(b, 2)
 }
 
@@ -143,7 +144,7 @@ define append-int16-UTF8(b: &builder, x: int16): unit {
 
 define append-int8(b: &builder, x: int8): unit {
   let content-head-ptr = _get-head-ptr(b, 1) in
-  store-int8(x, add-int(content-head-ptr, 0));
+  store-int8(x, shift(content-head-ptr, 0));
   _proceed(b, 1)
 }
 
