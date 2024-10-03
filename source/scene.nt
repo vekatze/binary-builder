@@ -82,7 +82,7 @@ define append-int(b: &builder, x: int): unit {
 }
 
 define append-int64-UTF8(b: &builder, x: int64): unit {
-  let fmt = core.text._get-content-pointer("%ld") in
+  let fmt = core.text._get-content-pointer("%ld\0") in
   let zero: int = 0 in
   let fragment-size: int = magic external snprintf(zero, zero, fmt)(x: int64) in
   let content-head-ptr = _get-head-ptr(b, fragment-size) in
@@ -161,7 +161,7 @@ define append-float64-big-endian(b: &builder, x: float64): unit {
 }
 
 define append-float64-UTF8(b: &builder, x: float64): unit {
-  let fmt = core.text._get-content-pointer("%lf") in
+  let fmt = core.text._get-content-pointer("%lf\0") in
   let zero: int = 0 in
   let fragment-size: int = magic external snprintf(zero, zero, fmt)(x: float64) in
   let content-head-ptr = _get-head-ptr(b, fragment-size) in
