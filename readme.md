@@ -1,5 +1,11 @@
 # binary-builder
 
+## Installation
+
+```sh
+neut get binary-builder https://github.com/vekatze/binary-builder/raw/main/archive/0-1-10.tar.zst
+```
+
 ## Summary
 
 ```neut
