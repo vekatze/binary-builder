@@ -46,8 +46,7 @@ define _extend(b: &builder): unit {
     let new-content = allocate(mul-int(current-size, 2)) in
     let content-ptr on content = _get-content-pointer(content) in
     let new-content-ptr on new-content = _get-content-pointer(new-content) in
-    let zero: int = 0 in
-    magic external llvm.memcpy.p0.p0.i64(new-content-ptr, content-ptr, cursor, zero);
+    let _ = magic external llvm.memcpy.p0.p0.i64(new-content-ptr, content-ptr, cursor, 0) in
     discard(content);
     _Builder(cursor, new-content)
   })
