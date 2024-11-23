@@ -1,6 +1,6 @@
 import {
   core.binary {binary},
-  core.c-int {C-Int, c-int, from-c-int},
+  core.c-int {c-int, from-c-int},
   core.cell {mutate},
   core.int.show {show-int},
   core.memory {store-int, store-int8},
@@ -84,7 +84,7 @@ define append-int(b: &builder, x: int): unit {
 
 define append-int64-UTF8(b: &builder, x: int64): unit {
   let fmt = core.text._get-content-pointer("%ld\0") in
-  let fragment-size = from-c-int(magic external snprintf(null-pointer, C-Int(0), fmt)(x: int64)) in
+  let fragment-size = from-c-int(magic external snprintf(null-pointer, 0, fmt)(x: int64)) in
   let content-head-ptr = _get-head-ptr(b, fragment-size) in
   let _ = magic external sprintf(content-head-ptr, fmt)(x: int64) in
   _proceed(b, fragment-size)
@@ -162,7 +162,7 @@ define append-float64-big-endian(b: &builder, x: float64): unit {
 
 define append-float64-UTF8(b: &builder, x: float64): unit {
   let fmt = core.text._get-content-pointer("%lf\0") in
-  let fragment-size = from-c-int(magic external snprintf(null-pointer, C-Int(0), fmt)(x: float64)) in
+  let fragment-size = from-c-int(magic external snprintf(null-pointer, 0, fmt)(x: float64)) in
   let content-head-ptr = _get-head-ptr(b, fragment-size) in
   let _ = magic external sprintf(content-head-ptr, fmt)(x: float64) in
   _proceed(b, fragment-size)
