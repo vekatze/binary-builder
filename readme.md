@@ -5,7 +5,7 @@
 ## Installation
 
 ```sh
-neut get binary-builder https://github.com/vekatze/binary-builder/raw/main/archive/0-1-14.tar.zst
+neut get binary-builder https://github.com/vekatze/binary-builder/raw/main/archive/0-1-15.tar.zst
 ```
 
 ## Types
