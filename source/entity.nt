@@ -1,6 +1,6 @@
 import {
   core.binary {_get-content-pointer, allocate, binary, take},
-  core.cell {cell, mutate},
+  core.cell {mutate, new-cell},
   core.control {discard},
 }
 
@@ -30,9 +30,11 @@ define get(b: builder): binary {
 }
 
 define _extension-required-p(b: &builder, new-size: int): bool {
-  tie _Builder of {cursor, content} = core.cell.read(b) in
-  let current-len = core.binary.binary-length(content) in
-  gt-int(add-int(*cursor, new-size), current-len)
+  core.cell.borrow(b, function (val) {
+    tie _Builder of {cursor, content} = val in
+    let current-len = core.binary.binary-length(content) in
+    quote {gt-int(add-int(*cursor, new-size), current-len)}
+  })
 }
 
 foreign {
@@ -48,6 +50,6 @@ define _extend(b: &builder): unit {
     let new-content-ptr on new-content = _get-content-pointer(new-content) in
     let _ = magic external llvm.memcpy.p0.p0.i64(new-content-ptr, content-ptr, cursor, 0) in
     discard(content);
-    _Builder(cursor, new-content)
+    quote {_Builder(cursor, new-content)}
   })
 }
