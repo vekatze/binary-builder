@@ -45,7 +45,7 @@ define append-int64-little-endian(b: &builder, x: int64): unit
 // Appends int64 to the given builder as binary (big endian).
 define append-int64-big-endian(b: &builder, x: int64): unit
 
-// Appends int64 to the given builder as a UTF-8 text.
+// Appends int64 to the given builder as UTF-8 text.
 define append-int64-UTF8(b: &builder, x: int64): unit
 
 // An int32 variant of `append-int64-little-endian`.
@@ -69,7 +69,7 @@ define append-int16-UTF8(b: &builder, x: int16): unit
 // Appends int8 to the given builder as binary.
 define append-int8(b: &builder, x: int8): unit
 
-// Appends int8 to the given builder as a UTF-8 text.
+// Appends int8 to the given builder as UTF-8 text.
 define append-int8-UTF8(b: &builder, x: int8): unit
 ```
 
@@ -82,7 +82,7 @@ define append-float64-little-endian(b: &builder, x: float64): unit
 // Appends float64 to the given builder as binary (big endian).
 define append-float64-big-endian(b: &builder, x: float64): unit
 
-// Appends float64 to the given builder as a UTF-8 text.
+// Appends float64 to the given builder as UTF-8 text.
 define append-float64-UTF8(b: &builder, x: float64): unit
 
 // An float32 variant of `append-float64-little-endian`.
