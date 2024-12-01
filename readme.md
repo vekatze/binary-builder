@@ -13,7 +13,7 @@ neut get binary-builder https://github.com/vekatze/binary-builder/raw/main/archi
 ### Basics
 
 ```neut
-constant builder: type
+inline builder: type
 
 // Allocates memory of size `size` and returns it as a builder.
 // The builder's size automatically doubles when there is
