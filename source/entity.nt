@@ -1,6 +1,6 @@
 import {
   core.binary {_get-content-pointer, allocate, binary, take},
-  core.cell {mutate, new-cell},
+  core.cell {mutate},
   core.control {discard},
 }
 
@@ -50,6 +50,6 @@ define _extend(b: &builder): unit {
     let new-content-ptr on new-content = _get-content-pointer(new-content) in
     let _ = magic external llvm.memcpy.p0.p0.i64(new-content-ptr, content-ptr, cursor, 0) in
     discard(content);
-    quote {_Builder(cursor, new-content)}
+    _Builder(cursor, new-content)
   })
 }
