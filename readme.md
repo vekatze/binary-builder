@@ -39,29 +39,20 @@ define append-binary(b: &builder, x: &binary): unit
 #### Integers
 
 ```neut
-// Appends int64 to the given builder as binary (little endian).
-define append-int64-little-endian(b: &builder, x: int64): unit
-
-// Appends int64 to the given builder as binary (big endian).
-define append-int64-big-endian(b: &builder, x: int64): unit
+// Appends int64 to the given builder as binary.
+define append-int64(b: &builder, x: int64): unit
 
 // Appends int64 to the given builder as UTF-8 text.
 define append-int64-UTF8(b: &builder, x: int64): unit
 
-// An int32 variant of `append-int64-little-endian`.
-define append-int32-little-endian(b: &builder, x: int32): unit
-
-// An int32 variant of `append-int64-big-endian`.
-define append-int32-big-endian(b: &builder, x: int32): unit
+// An int32 variant of `append-int64`.
+define append-int32(b: &builder, x: int32): unit
 
 // An int32 variant of `append-int64-UTF8`.
 define append-int32-UTF8(b: &builder, x: int32): unit
 
-// An int16 variant of `append-int64-little-endian`.
-define append-int16-little-endian(b: &builder, x: int16): unit
-
-// An int16 variant of `append-int64-big-endian`.
-define append-int16-big-endian(b: &builder, x: int16): unit
+// An int16 variant of `append-int16`.
+define append-int16(b: &builder, x: int16): unit
 
 // An int16 variant of `append-int64-UTF8`.
 define append-int16-UTF8(b: &builder, x: int16): unit
@@ -76,29 +67,20 @@ define append-int8-UTF8(b: &builder, x: int8): unit
 #### Floats
 
 ```neut
-// Appends float64 to the given builder as binary (little endian).
-define append-float64-little-endian(b: &builder, x: float64): unit
-
-// Appends float64 to the given builder as binary (big endian).
-define append-float64-big-endian(b: &builder, x: float64): unit
+// Appends float64 to the given builder as binary.
+define append-float64(b: &builder, x: float64): unit
 
 // Appends float64 to the given builder as UTF-8 text.
 define append-float64-UTF8(b: &builder, x: float64): unit
 
-// An float32 variant of `append-float64-little-endian`.
-define append-float32-little-endian(b: &builder, x: float32): unit
-
-// An float32 variant of `append-float64-big-endian`.
-define append-float32-big-endian(b: &builder, x: float32): unit
+// An float32 variant of `append-float64`.
+define append-float32(b: &builder, x: float32): unit
 
 // An float32 variant of `append-float64-UTF8`.
 define append-float32-UTF8(b: &builder, x: float32): unit
 
-// An float16 variant of `append-float64-little-endian`.
-define append-float16-little-endian(b: &builder, x: float16): unit
-
-// An float16 variant of `append-float64-big-endian`.
-define append-float16-big-endian(b: &builder, x: float16): unit
+// An float16 variant of `append-float64`.
+define append-float16(b: &builder, x: float16): unit
 
 // An float16 variant of `append-float64-UTF8`.
 define append-float16-UTF8(b: &builder, x: float16): unit
