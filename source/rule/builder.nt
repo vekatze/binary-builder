@@ -1,0 +1,14 @@
+import {
+  core.binary {binary},
+}
+
+data _builder {
+| _Builder(
+    cursor: int,
+    content: binary,
+  )
+}
+
+inline builder: type {
+  cell(_builder)
+}

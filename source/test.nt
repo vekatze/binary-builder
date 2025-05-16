@@ -8,8 +8,9 @@ import {
   noa.gen.lists {lists},
   noa.gen.texts {texts},
   noa.suite {Trope, noa},
-  this.entity {create, get},
-  this.scene {append-float64-UTF8, append-int64-UTF8, append-text},
+  this.move.append {append-float64-UTF8, append-int64-UTF8, append-text},
+  this.move.extract {extract},
+  this.move.make-builder {make-builder},
 }
 
 define main(): unit {
@@ -20,13 +21,13 @@ define main(): unit {
     function (xs: list(text)) {
       pin xs = xs in
       pin t1 = join(*xs) in
-      let buf = create(100) in
+      let buf = make-builder(100) in
       let _ on buf =
         for-N(xs, function (x) {
           append-text(buf, x)
         })
       in
-      pin t2 = _Text(get(buf)) in
+      pin t2 = _Text(extract(buf)) in
       eq-text(t1, t2)
     },
   );
@@ -35,9 +36,9 @@ define main(): unit {
     ints,
     function (x: int) {
       pin t1 = show-int(x) in
-      let buf = create(100) in
+      let buf = make-builder(100) in
       let _ on buf = append-int64-UTF8(buf, x) in
-      pin t2 = _Text(get(buf)) in
+      pin t2 = _Text(extract(buf)) in
       eq-text(t1, t2)
     },
   );
@@ -46,10 +47,14 @@ define main(): unit {
     floats,
     function (x: float) {
       pin t1 = show-float(x) in
-      let buf = create(100) in
+      let buf = make-builder(100) in
       let _ on buf = append-float64-UTF8(buf, x) in
-      pin t2 = _Text(get(buf)) in
+      pin t2 = _Text(extract(buf)) in
       eq-text(t1, t2)
     },
   )
+}
+
+define zen(): unit {
+  main()
 }

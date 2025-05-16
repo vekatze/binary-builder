@@ -5,10 +5,12 @@ import {
   core.cell {mutate},
   core.external {write},
   core.file.descriptor {stdout},
-  core.int.show {show-int},
   core.memory {store-float, store-int, store-int16, store-int32, store-int8},
   core.pointer {null-pointer, shift},
-  this.entity {_Builder, _extend, _extension-required-p, builder, create, get},
+  this.move.extract {extract},
+  this.move.make-builder {make-builder},
+  this.move.private.extend {_extend, _extension-required-p},
+  this.rule.builder {_Builder, builder},
 }
 
 foreign {
@@ -137,21 +139,12 @@ define append-text(b: &builder, x: &text): unit {
   _proceed(b, text-byte-len)
 }
 
-define _print-content-size(b: &builder): unit {
-  core.cell.borrow(b, function (val) {
-    tie _Builder of {content} = val in
-    let current-len = core.binary.binary-length(content) in
-    printf("size: {}\n", [show-int(current-len)]);
-    quote {Unit}
-  })
-}
-
 foreign {
   write(int, pointer, int): int,
 }
 
 define zen(): unit {
-  let b = create(4) in
+  let b = make-builder(4) in
   let _ on b =
     append-int32(b, 3);
     append-int32(b, 65535)
@@ -166,7 +159,7 @@ define zen(): unit {
     // append-int64-UTF8(b, 123);
     // append-text(b, "world")
   in
-  pin result = get(b) in
+  pin result = extract(b) in
   let len = binary-length(result) in
   let ptr = core.binary._get-content-pointer(result) in
   let _ = write(stdout, ptr, C-Size(len)) in

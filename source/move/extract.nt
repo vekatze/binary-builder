@@ -1,0 +1,9 @@
+import {
+  core.binary {binary, take},
+  this.rule.builder {_Builder, builder},
+}
+
+define extract(b: builder): binary {
+  let _Builder of {cursor, content} = core.cell.extract(b) in
+  take(content, cursor)
+}

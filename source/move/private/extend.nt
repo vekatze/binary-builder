@@ -1,32 +1,12 @@
 import {
-  core.binary {_get-content-pointer, allocate, binary, take},
+  core.binary {_get-content-pointer, allocate},
   core.cell {mutate},
   core.control {discard},
+  this.rule.builder {_Builder, _builder, builder},
 }
 
-data _builder {
-| _Builder(
-    cursor: int,
-    content: binary,
-  )
-}
-
-inline builder: type {
-  cell(_builder)
-}
-
-define create(size: int): builder {
-  new-cell(
-    _Builder of {
-      cursor = 0,
-      content = allocate(size),
-    },
-  )
-}
-
-define get(b: builder): binary {
-  let _Builder of {cursor, content} = core.cell.extract(b) in
-  take(content, cursor)
+foreign {
+  llvm.memcpy.p0.p0.i64(pointer, pointer, int64, int1): void,
 }
 
 define _extension-required-p(b: &builder, new-size: int): bool {
@@ -35,10 +15,6 @@ define _extension-required-p(b: &builder, new-size: int): bool {
     let current-len = core.binary.binary-length(content) in
     quote {gt-int(add-int(*cursor, new-size), current-len)}
   })
-}
-
-foreign {
-  llvm.memcpy.p0.p0.i64(pointer, pointer, int64, int1): void,
 }
 
 define _extend(b: &builder): unit {

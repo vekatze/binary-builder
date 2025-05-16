@@ -1,0 +1,13 @@
+import {
+  core.binary {allocate},
+  this.rule.builder {_Builder, builder},
+}
+
+define make-builder(size: int): builder {
+  new-cell(
+    _Builder of {
+      cursor = 0,
+      content = allocate(size),
+    },
+  )
+}
