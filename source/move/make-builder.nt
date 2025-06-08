@@ -4,10 +4,10 @@ import {
 }
 
 define make-builder(size: int): builder {
-  new-cell(
+  make-cell(
     _Builder of {
-      cursor = 0,
-      content = allocate(size),
+      cursor := 0,
+      content := allocate(size),
     },
   )
 }

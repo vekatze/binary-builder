@@ -90,14 +90,14 @@ define append-float16-UTF8(b: &builder, x: float16): unit
 
 ```neut
 define zen(): unit {
-  let b = make-builder(4) in
-  let _ on b =
+  let b = make-builder(4);
+  let _ on b = {
     append-text(b, "hello");
     append-int64-UTF8(b, 123);
     append-text(b, "world")
-  in
-  let result = extract(b) in
-  printf("{}\n", [_Text(result)])
+  };
+  pin result = _Text(extract(b));
+  print-line(result);
 }
 
 // => hello123world

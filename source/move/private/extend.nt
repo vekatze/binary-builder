@@ -11,20 +11,20 @@ foreign {
 
 define _extension-required-p(b: &builder, new-size: int): bool {
   core.cell.borrow(b, function (val) {
-    tie _Builder of {cursor, content} = val in
-    let current-len = core.binary.binary-length(content) in
+    tie _Builder of {cursor, content} = val;
+    let current-len = core.binary.binary-length(content);
     quote {gt-int(add-int(*cursor, new-size), current-len)}
   })
 }
 
 define _extend(b: &builder): unit {
   mutate(b, function (x: _builder) {
-    let _Builder of {cursor, content} = x in
-    let current-size on content = core.binary.binary-length(content) in
-    let new-content = allocate(mul-int(current-size, 2)) in
-    let content-ptr on content = _get-content-pointer(content) in
-    let new-content-ptr on new-content = _get-content-pointer(new-content) in
-    let _ = magic external llvm.memcpy.p0.p0.i64(new-content-ptr, content-ptr, cursor, 0) in
+    let _Builder of {cursor, content} = x;
+    let current-size on content = core.binary.binary-length(content);
+    let new-content = allocate(mul-int(current-size, 2));
+    let content-ptr on content = _get-content-pointer(content);
+    let new-content-ptr on new-content = _get-content-pointer(new-content);
+    let _ = magic external llvm.memcpy.p0.p0.i64(new-content-ptr, content-ptr, cursor, 0);
     discard(content);
     _Builder(cursor, new-content)
   })

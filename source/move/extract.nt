@@ -4,6 +4,6 @@ import {
 }
 
 define extract(b: builder): binary {
-  let _Builder of {cursor, content} = core.cell.extract(b) in
+  let _Builder of {cursor, content} = core.cell.extract(b);
   take(content, cursor)
 }
