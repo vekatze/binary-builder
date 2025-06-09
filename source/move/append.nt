@@ -4,6 +4,7 @@ import {
   core.cell {mutate},
   core.memory {store-float, store-int, store-int16, store-int32, store-int8},
   core.pointer {null-pointer, shift},
+  core.rune {store-rune, to-int32},
   core.text {_Text},
   core.text.io {print-line},
   this.move.extract {extract},
@@ -138,6 +139,19 @@ define append-text(b: &builder, x: &text): unit {
   _proceed(b, text-byte-len)
 }
 
+define append-rune(b: &builder, x: rune): unit {
+  append-int32(b, to-int32(x));
+}
+
+define append-rune-UTF8(b: &builder, x: rune): unit {
+  let size = core.rune.size(x);
+  let content-head-ptr = _get-head-ptr(b, size);
+  let buffer-ptr = magic alloca(int32, 1);
+  let _ = store-rune(x, buffer-ptr);
+  let _ = magic external llvm.memcpy.p0.p0.i64(content-head-ptr, buffer-ptr, size, 0);
+  _proceed(b, size);
+}
+
 foreign {
   write(int, pointer, int): int,
 }
@@ -155,6 +169,9 @@ define zen(): unit {
     // append-int64(b, 8);
     // append-int64(b, 9)
     append-text(b, "hello");
+    append-rune-UTF8(b, `a`);
+    append-rune-UTF8(b, `α`);
+    append-rune-UTF8(b, `あ`);
     append-int64-UTF8(b, 123);
     append-text(b, "world")
   };
