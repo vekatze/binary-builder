@@ -3,12 +3,12 @@ import {
   core.int.show {show-int},
   core.list {for-N},
   core.text {_Text, join},
-  noa.move.check {check},
-  noa.move.gen.float {float-gen},
-  noa.move.gen.int {int-gen},
-  noa.move.gen.list {list-gen},
-  noa.move.gen.text {text-gen},
-  noa.move.make-noa-kit {make-default-noa-kit},
+  noa.check {check},
+  noa.gen.float {float-gen},
+  noa.gen.int {int-gen},
+  noa.gen.list {list-gen},
+  noa.gen.text {text-gen},
+  noa.make-noa-kit {make-default-noa-kit},
   this.move.append {append-float64-UTF8, append-int64-UTF8, append-text},
   this.move.extract {extract},
   this.move.make-builder {make-builder},
@@ -49,7 +49,7 @@ define main(): unit {
     "∀ (x: float64). show-float64(x) == {let b = create(N) in append-float64-UTF8(b, x); get(b)}",
     float-gen,
     function (x: float) {
-      pin t1 = show-float(x);
+      pin t1 = show-float(x, 6);
       let buf = make-builder(100);
       let _ on buf = append-float64-UTF8(buf, x);
       pin t2 = _Text(extract(buf));
