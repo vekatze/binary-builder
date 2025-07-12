@@ -9,9 +9,9 @@ import {
   noa.gen.list {list-gen},
   noa.gen.text {text-gen},
   noa.make-noa-kit {make-default-noa-kit},
-  this.move.append {append-float64-UTF8, append-int64-UTF8, append-text},
-  this.move.extract {extract},
-  this.move.make-builder {make-builder},
+  this.append {append-float64-UTF8, append-int64-UTF8, append-text},
+  this.extract {extract},
+  this.make-builder {make-builder},
 }
 
 define main(): unit {

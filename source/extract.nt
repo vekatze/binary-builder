@@ -1,6 +1,6 @@
 import {
   core.binary {binary, take},
-  this.rule.builder {_Builder, builder},
+  this.builder {_Builder, builder},
 }
 
 define extract(b: builder): binary {

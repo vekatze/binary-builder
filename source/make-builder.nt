@@ -1,6 +1,6 @@
 import {
   core.binary {allocate},
-  this.rule.builder {_Builder, builder},
+  this.builder {_Builder, builder},
 }
 
 define make-builder(size: int): builder {

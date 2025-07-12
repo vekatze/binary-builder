@@ -2,7 +2,7 @@ import {
   core.binary {_get-content-pointer, allocate},
   core.cell {mutate},
   core.control {discard},
-  this.rule.builder {_Builder, _builder, builder},
+  this.builder {_Builder, _builder, builder},
 }
 
 foreign {

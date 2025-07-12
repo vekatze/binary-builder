@@ -7,10 +7,10 @@ import {
   core.rune {store-rune, to-int32},
   core.text {_Text},
   core.text.io {print-line},
-  this.move.extract {extract},
-  this.move.make-builder {make-builder},
-  this.move.private.extend {_extend, _extension-required-p},
-  this.rule.builder {_Builder, builder},
+  this.builder {_Builder, builder},
+  this.extract {extract},
+  this.make-builder {make-builder},
+  this.private.extend {_extend, _extension-required-p},
 }
 
 foreign {
